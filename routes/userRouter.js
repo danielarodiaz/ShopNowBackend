@@ -12,6 +12,8 @@ const {
   validRole,
 } = require("../helpers/db_validators");
 const { validate_fields } = require("../middlewares/validate_fields");
+const { validateJWT } = require("../middlewares/validate_JWT");
+const validAdminRole = require("../middlewares/validate_role");
 
 const router = Router();
 
@@ -26,6 +28,7 @@ router.post(
     ).isLength({ min: 6 }),
     check("email", "No es un correo valido").isEmail(),
     check("email").custom(emailExists),
+    check(!"role").custom(validRole),
     validate_fields,
   ],
   userPost
@@ -33,6 +36,7 @@ router.post(
 router.put(
   "/:id",
   [
+    validateJWT,
     check("id", "No es un ID valido").isMongoId(),
     check("id").custom(userExists),
     check("role").custom(validRole),
@@ -43,6 +47,8 @@ router.put(
 router.delete(
   "/:id",
   [
+    validateJWT,
+    validAdminRole,
     check("id", "No es un ID valido").isMongoId(),
     check("id").custom(userExists),
     validate_fields,
