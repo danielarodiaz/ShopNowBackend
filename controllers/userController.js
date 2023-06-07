@@ -4,13 +4,13 @@ const Users = require("../models/UserModel");
 
 const userGet = async (req = request, res = response) => {
   const { from = 0, limit = 10 } = req.query;
-  const query = { estado: true };
-  const [total, users] = await Promise.all([
+  const query = { status: true };
+  const [total, user] = await Promise.all([
     Users.countDocuments(query),
     Users.find(query).skip(from).limit(limit),
   ]);
   res.json({
-    users,
+    user,
     total,
   });
 };
@@ -42,6 +42,7 @@ const userPut = async (req = request, res = response) => {
 };
 const userDelete = async (req = request, res = response) => {
   const { id } = req.params;
+  const userAuthenticated = req.user;
   const user = await Users.findById(id);
   if (!user.status) {
     return res.json({
@@ -54,8 +55,9 @@ const userDelete = async (req = request, res = response) => {
     { new: true }
   );
   res.json({
-    msg: "Usuario borrado",
+    msg: "Usuario inactivado",
     userInactivated,
+    userAuthenticated,
   });
 };
 

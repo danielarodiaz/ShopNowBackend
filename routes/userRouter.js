@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
+const { validate_fields } = require("../middlewares/validate_fields");
 const {
   userGet,
   userPost,
@@ -11,9 +12,8 @@ const {
   userExists,
   validRole,
 } = require("../helpers/db_validators");
-const { validate_fields } = require("../middlewares/validate_fields");
 const { validateJWT } = require("../middlewares/validate_JWT");
-const validAdminRole = require("../middlewares/validate_role");
+const { validAdminRole } = require("../middlewares/validate_role");
 
 const router = Router();
 
@@ -28,7 +28,7 @@ router.post(
     ).isLength({ min: 6 }),
     check("email", "No es un correo valido").isEmail(),
     check("email").custom(emailExists),
-    check(!"role").custom(validRole),
+    check("role").custom(validRole),
     validate_fields,
   ],
   userPost

@@ -1,12 +1,12 @@
 const { request, response } = require("express");
 
 const validAdminRole = (req = request, res = response, next) => {
-  if (!req.users) {
+  if (!req.user) {
     return res.status(500).json({
       msg: "Se quiere validar el usuario sin tener el token",
     });
   }
-  const { role, name } = req.users;
+  const { role, name } = req.user;
   if (role !== "ADMIN_ROLE") {
     return res.status(401).json({
       msg: `${name} no es administrador`,
@@ -15,4 +15,4 @@ const validAdminRole = (req = request, res = response, next) => {
   next();
 };
 
-module.exports = validAdminRole;
+module.exports = { validAdminRole };

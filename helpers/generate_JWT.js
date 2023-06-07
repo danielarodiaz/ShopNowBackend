@@ -19,4 +19,4 @@ const generateJWT = (uid) => {
     );
   });
 };
-module.exports = generateJWT;
+module.exports = { generateJWT };
