@@ -7,6 +7,8 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
+    this.authPath = "/api/auth";
+    this.userPath = "/api/users";
     this.conectarDB();
 
     this.middlewars();
@@ -23,7 +25,10 @@ class Server {
     this.app.use(express.static("public"));
   }
 
-  routes() {}
+  routes() {
+    this.app.use(this.authPath, require("../routes/authRouter"));
+    this.app.use(this.userPath, require("../routes/userRouter"));
+  }
 
   listen() {
     this.app.listen(this.port, () => {
