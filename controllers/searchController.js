@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 
 const Users = require("../models/UserModel");
-//const Categories = require("../models/CategoryModel")
+const Categories = require("../models/CategoryModel");
 //const Products = require("../models/ProductModel")
 
 const collectionPermit = ["users", "categories", "products"];
@@ -16,16 +16,16 @@ const searchUsers = async (term, res = response) => {
     results: user,
   });
 };
-// const searchCategories = async (term, res = response) => {
-//   const regex = new RegExp(term, "i");
-//   const category = await Categories.find({
-//     name: regex,
-//     status: true,
-//   });
-//   res.json({
-//     results: category,
-//   });
-// };
+const searchCategories = async (term, res = response) => {
+  const regex = new RegExp(term, "i");
+  const category = await Categories.find({
+    name: regex,
+    status: true,
+  });
+  res.json({
+    results: category,
+  });
+};
 // const searchProducts = async (term, res = response) => {
 //   const regex = new RegExp(term, "i");
 //   const product = await Products.find({
