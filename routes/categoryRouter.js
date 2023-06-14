@@ -9,8 +9,7 @@ const {
   borrarCategoria,
 } = require("../controllers/categorias");
 
-const { categoriaExiste } = require("../helpers/db-validators");
-
+const { categoriaExiste } = require("../helpers/db_validators");
 const { validarJWT } = require("../middlewares/validate_JWT");
 const { esAdminRole } = require("../middlewares/validate_role");
 const { validarCampos } = require("../middlewares/validate_fields");

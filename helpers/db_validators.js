@@ -1,5 +1,6 @@
 const Users = require("../models/UserModel");
 const Roles = require("../models/RoleModel");
+const Products = require("../models/ProductsModels")
 const emailExists = async (email) => {
   const existsEmail = await Users.findOne({ email });
   if (existsEmail) {
@@ -19,4 +20,13 @@ const validRole = async (role) => {
   }
 };
 
-module.exports = { emailExists, userExists, validRole };
+const productExists= async (id) => {
+  const existsProduct = await Products.findById(id);
+  if (!existsProduct ) {
+    throw new Error(
+      `El ID ${id} no corresponde a ningun producto registrado en la base de datos`
+    );
+  }
+};
+
+module.exports = { emailExists, userExists, validRole, productExists,  };
