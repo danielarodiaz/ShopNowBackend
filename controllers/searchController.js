@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 
 const Users = require("../models/UserModel");
-const Categories = require("../models/CategoryModel");
+const Categories = require("../models/categoryModel");
 //const Products = require("../models/ProductModel")
 
 const collectionPermit = ["users", "categories", "products"];
