@@ -9,7 +9,8 @@ class Server {
     this.port = process.env.PORT;
     this.authPath = "/api/auth";
     this.userPath = "/api/users";
-    this.searchPath = "/api/search";
+    this.categoryPath = "/api/categories";
+    this.searchPath = "/api/search"
     this.conectarDB();
 
     this.middlewars();
@@ -29,6 +30,7 @@ class Server {
   routes() {
     this.app.use(this.authPath, require("../routes/authRouter"));
     this.app.use(this.userPath, require("../routes/userRouter"));
+    this.app.use(this.categoryPath, require("../routes/categoryRouter"));
     this.app.use(this.searchPath, require("../routes/searchRouter"));
   }
 
