@@ -10,6 +10,7 @@ class Server {
     this.authPath = "/api/auth";
     this.userPath = "/api/users";
     this.categoryPath = "/api/categories";
+    this.searchPath = "/api/search"
     this.conectarDB();
 
     this.middlewars();
@@ -30,6 +31,7 @@ class Server {
     this.app.use(this.authPath, require("../routes/authRouter"));
     this.app.use(this.userPath, require("../routes/userRouter"));
     this.app.use(this.categoryPath, require("../routes/categoryRouter"));
+    this.app.use(this.searchPath, require("../routes/searchRouter"));
   }
 
   listen() {
