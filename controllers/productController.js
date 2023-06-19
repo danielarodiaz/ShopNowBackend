@@ -102,7 +102,8 @@ const productDelete = async (req = request, res = response) => {
   );
 
   res.json({
-    msg: `El producto ${productInativated.name} se borro`,
+    msg: `El producto ${productInativated.name} se inhabilito`,
+    productInativated,
   });
 };
 
