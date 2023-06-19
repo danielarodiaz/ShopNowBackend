@@ -11,11 +11,12 @@ const {
   productPost,
   productPut,
   productDelete,
+  productsGet,
 } = require("../controllers/productController");
 
 const router = Router();
 
-router.get("/",[validateJWT] );
+router.get("/", productsGet);
 router.get(
   "/:id",
   [
@@ -43,7 +44,6 @@ router.put(
     validateJWT,
     validAdminRole,
     check("id", "El id no es válido").isMongoId(),
-  
     check("id").custom(productExists),
     validate_fields,
   ],

@@ -2,40 +2,38 @@ const { response, request } = require("express");
 const Products = require("../models/ProductsModels");
 
 const productsGet = async (req = request, res = response) => {
-  const { limit = 5, from = 0 } = req.query;
+  const { from = 0, limit = 5 } = req.query;
   const query = { status: true };
 
-  const [total, Products] = await Promise.all([
+  const [total, product] = await Promise.all([
     Products.countDocuments(query),
     Products.find(query)
       .skip(Number(from))
       .limit(Number(limit))
-      .populate("Users", "email")
-      .populate("Category", "name"),
+      .populate("users", "email")
+      .populate("category", "name"),
   ]);
 
   res.json({
     total,
-    Products,
+    product,
   });
 };
 
 const productGet = async (req = request, res = response) => {
   const { id } = req.params;
 
-  const Products = await Products.findById(id)
-    .populate("User", "email")
-    .populate("Category", "name");
-
+  const product = await Products.findById(id)
+    .populate("users", "email")
+    .populate("category", "name");
 
   res.json({
-    Products
+    product,
   });
 };
 
-
 const productPost = async (req = request, res = response) => {
-  const {  description, category, price, img, status} = req.body;
+  const { description, category, price, img, status } = req.body;
   const name = req.body.name.toUpperCase();
 
   const productsDB = await Products.findOne({ name });
@@ -46,19 +44,18 @@ const productPost = async (req = request, res = response) => {
     });
   }
 
- 
   const data = {
     name,
-		description,
-		category,
-		price,
-		img,
-		status,
-    users :req.users._id
+    description,
+    category,
+    price,
+    img,
+    status,
+    user: req.user._id,
   };
 
   const product = new Products(data);
-  
+
   await product.save();
 
   res.status(201).json({
@@ -67,19 +64,19 @@ const productPost = async (req = request, res = response) => {
   });
 };
 
-
-const productPut = async (req=request, res=response) => {
+const productPut = async (req = request, res = response) => {
   const { id } = req.params;
-  const { description, category, price, img, status } = req.body;
+  const { description, category, price, img, status, favorite } = req.body;
 
-  const user = req.users._id;
+  const user = req.user._id;
 
   const data = {
     description,
-		category,
-		price,
-		img,
-		status,
+    category,
+    price,
+    img,
+    status,
+    favorite,
     user,
   };
 
@@ -94,7 +91,6 @@ const productPut = async (req=request, res=response) => {
     msg: "El producto se actualizó",
   });
 };
-
 
 const productDelete = async (req = request, res = response) => {
   const { id } = req.params;

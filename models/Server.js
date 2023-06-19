@@ -9,8 +9,7 @@ class Server {
     this.port = process.env.PORT;
     this.authPath = "/api/auth";
     this.userPath = "/api/users";
-    this.categoryPath = "/api/category"
-    
+    this.productPath = "/api/products";
     this.conectarDB();
 
     this.middlewars();
@@ -25,14 +24,12 @@ class Server {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.static("public"));
-
   }
 
   routes() {
     this.app.use(this.authPath, require("../routes/authRouter"));
     this.app.use(this.userPath, require("../routes/userRouter"));
-    this.aoo.use(this.categoryPath, require("../routes/categoryRouter"))
-    this.aoo.use(this.productPath, require("../routes/productRouter"))
+    this.app.use(this.productPath, require("../routes/productRouter"));
   }
 
   listen() {
