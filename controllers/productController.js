@@ -10,7 +10,7 @@ const productsGet = async (req = request, res = response) => {
     Products.find(query)
       .skip(Number(from))
       .limit(Number(limit))
-      .populate("users", "email")
+      .populate("user", "email")
       .populate("category", "name"),
   ]);
 
@@ -24,7 +24,7 @@ const productGet = async (req = request, res = response) => {
   const { id } = req.params;
 
   const product = await Products.findById(id)
-    .populate("users", "email")
+    .populate("user", "email")
     .populate("category", "name");
 
   res.json({
