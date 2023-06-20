@@ -4,6 +4,7 @@ const Users = require("../models/UserModel");
 const Categories = require("../models/categoryModel");
 const Products = require("../models/ProductsModels");
 
+
 const collectionPermit = ["users", "categories", "products"];
 
 const searchUsers = async (term, res = response) => {
