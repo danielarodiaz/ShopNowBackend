@@ -12,6 +12,7 @@ class Server {
     this.categoryPath = "/api/categories";
     this.productPath = "/api/products";
     this.searchPath = "/api/search";
+    this.shoppingPath = "/api/shopping";
     this.conectarDB();
 
     this.middlewars();
@@ -34,6 +35,7 @@ class Server {
     this.app.use(this.categoryPath, require("../routes/categoryRouter"));
     this.app.use(this.productPath, require("../routes/productRouter"));
     this.app.use(this.searchPath, require("../routes/searchRouter"));
+    this.app.use(this.shoppingPath, require("../routes/shoppingRouter"));
   }
 
   listen() {
