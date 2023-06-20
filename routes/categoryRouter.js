@@ -7,7 +7,7 @@ const {
   categoryPost,
   categoryPut,
   categoryDelete,
-} = require("../controllers/CategoryController");
+} = require("../controllers/categoryController");
 
 const { categoryExists } = require("../helpers/db_validators");
 
@@ -17,12 +17,11 @@ const { validate_fields } = require("../middlewares/validate_fields");
 
 const router = Router();
 
-router.get("/", [validateJWT], categoriesGet);
+router.get("/", categoriesGet);
 
 router.get(
   "/:id",
   [
-    validateJWT,
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(categoryExists),
     validate_fields,
