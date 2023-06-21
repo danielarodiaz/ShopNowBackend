@@ -37,17 +37,21 @@ const shoppingPost = async (req = request, res = response) => {
     cant,
     id,
     user: req.user._id, //me mostrara el usuario que logueado
-    //product: req.product._id, //id del producto
+    product: req.product._id, //id del producto
   };
+  try {
+    const shopping = new shoppingCart(data);
 
-  const shopping = new shoppingCart(data);
+    await shopping.save();
 
-  await shopping.save();
-
-  res.status(201).json({
-    shopping,
-    msg: "Compra cargada con exito!",
-  });
+    res.status(201).json({
+      shopping,
+      msg: "Compra cargada con exito!",
+    });
+  } catch (error) {
+    console.log("hola");
+    res.status(400).json(error);
+  }
 };
 
 const shoppingPut = async (req = request, res = response) => {
