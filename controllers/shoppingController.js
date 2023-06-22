@@ -24,24 +24,30 @@ const shoppingGet = async (req = request, res = response) => {
 
 const shoppingPost = async (req = request, res = response) => {
   //Lo que recibira por el body es la cantidad y el id del producto
-  const { cant, id } = req.body;
+  const { cant, product } = req.body;
+  const name = req.body.name.toUpperCase();
 
-  const productsDB = await Products.findById(id);
+  const productsDB = await Products.findOne({ name });
   if (!productsDB) {
     return res.status(400).json({
-      msg: `El producto ${productsDB.id} no existe`,
+      msg: `El producto ${name} no existe`,
+    });
+  }
+  const shoppingDB = await shoppingCart.findOne({ name });
+  if (shoppingDB) {
+    return res.status(400).json({
+      msg: `El producto ${name} ya existe en la BD`,
     });
   }
 
   const data = {
     cant,
-    id,
+    name,
+    product,
     user: req.user._id, //me mostrara el usuario que logueado
-    product: req.product._id, //id del producto
   };
   try {
     const shopping = new shoppingCart(data);
-
     await shopping.save();
 
     res.status(201).json({
@@ -49,7 +55,6 @@ const shoppingPost = async (req = request, res = response) => {
       msg: "Compra cargada con exito!",
     });
   } catch (error) {
-    console.log("hola");
     res.status(400).json(error);
   }
 };
@@ -60,12 +65,10 @@ const shoppingPut = async (req = request, res = response) => {
   const { cant } = req.body;
 
   const user = req.user._id;
-  const product = req.product._id;
 
   const data = {
     cant,
     user,
-    product,
   };
 
   const shopping = await shoppingCart.findByIdAndUpdate(id, data, {
@@ -88,7 +91,7 @@ const shoppingDelete = async (req = request, res = response) => {
   );
 
   res.json({
-    msg: `La compra ${shoppingInativated.id} se inhabilito`,
+    msg: `La compra ${shoppingInativated.name} se inhabilito`,
     shoppingInativated,
   });
 };

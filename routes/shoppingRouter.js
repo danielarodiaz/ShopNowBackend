@@ -3,8 +3,7 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const { validate_fields } = require("../middlewares/validate_fields");
 const { validateJWT } = require("../middlewares/validate_JWT");
-const { productExists } = require("../helpers/db_validators");
-const { userExists } = require("../helpers/db_validators");
+const { shoppingExists } = require("../helpers/db_validators");
 
 const {
   shoppingGet, //listarMiCarrito
@@ -22,7 +21,6 @@ router.post(
   [
     validateJWT,
     check("cant", "La cantidad es obligatoria").notEmpty(),
-    check("id").custom(productExists),
     validate_fields,
   ],
   shoppingPost
@@ -33,7 +31,7 @@ router.put(
   [
     validateJWT,
     check("id", "El id no es válido").isMongoId(),
-    check("id").custom(productExists),
+    check("id").custom(shoppingExists),
     validate_fields,
   ],
   shoppingPut
@@ -44,7 +42,7 @@ router.delete(
   [
     validateJWT,
     check("id", "El id no es válido").isMongoId(),
-    check("id").custom(productExists),
+    check("id").custom(shoppingExists),
     validate_fields,
   ],
   shoppingDelete
