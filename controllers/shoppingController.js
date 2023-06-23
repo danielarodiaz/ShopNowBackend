@@ -60,14 +60,15 @@ const shoppingPost = async (req = request, res = response) => {
 };
 
 const shoppingPut = async (req = request, res = response) => {
-  //solamente recibo el id de la compra y actualizo la cantidad
+  //solamente recibo el id de la compra y actualizo la cantidad o su estado
   const { id } = req.params;
-  const { cant } = req.body;
+  const { cant, status } = req.body;
 
   const user = req.user._id;
 
   const data = {
     cant,
+    status,
     user,
   };
 
