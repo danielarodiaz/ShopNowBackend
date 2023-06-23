@@ -2,6 +2,7 @@ const Users = require("../models/UserModel");
 const Roles = require("../models/RoleModel");
 const Products = require("../models/ProductsModels");
 const Categories = require("../models/categoryModel");
+const shoppingCart = require("../models/shoppingCartModel");
 const emailExists = async (email) => {
   const existsEmail = await Users.findOne({ email });
   if (existsEmail) {
@@ -33,8 +34,14 @@ const productExists = async (id) => {
   const existsProduct = await Products.findById(id);
   if (!existsProduct) {
     throw new Error(
-      `El ID ${id} no corresponde a ningun producto registrado en la base de datos`
+      `El producto ${id} no corresponde a ningun producto registrado en la base de datos`
     );
+  }
+};
+const shoppingExists = async (id) => {
+  const existsShopping = await shoppingCart.findById(id);
+  if (!existsShopping) {
+    throw new Error(`La compra ${id} no esta registrada en la base de datos`);
   }
 };
 
@@ -44,4 +51,5 @@ module.exports = {
   validRole,
   productExists,
   categoryExists,
+  shoppingExists,
 };
