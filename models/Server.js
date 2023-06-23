@@ -7,6 +7,12 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
+    this.authPath = "/api/auth";
+    this.userPath = "/api/users";
+    this.categoryPath = "/api/categories";
+    this.productPath = "/api/products";
+    this.searchPath = "/api/search";
+    this.shoppingPath = "/api/shopping";
     this.conectarDB();
 
     this.middlewars();
@@ -23,7 +29,14 @@ class Server {
     this.app.use(express.static("public"));
   }
 
-  routes() {}
+  routes() {
+    this.app.use(this.authPath, require("../routes/authRouter"));
+    this.app.use(this.userPath, require("../routes/userRouter"));
+    this.app.use(this.categoryPath, require("../routes/categoryRouter"));
+    this.app.use(this.productPath, require("../routes/productRouter"));
+    this.app.use(this.searchPath, require("../routes/searchRouter"));
+    this.app.use(this.shoppingPath, require("../routes/shoppingRouter"));
+  }
 
   listen() {
     this.app.listen(this.port, () => {
